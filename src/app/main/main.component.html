@@ -6,84 +6,83 @@
             <canvas #canvas width="400" height="300"></canvas>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <h2 class=text-center>Controle selecionado: {{ 'Tamanho' }}</h2>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-4">
-            <div class="row">
-                <div class="col">
-                    <h6 class=text-center>Margem</h6>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-3">
-                    <input type="text" class="form-control" placeholder="Topo">
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-3">
-                    <input type="text" class="form-control" placeholder="Esquerda">
-                </div>
-                <div class="col-3">
-                    <input type="text" class="form-control" placeholder="Direita">
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-3">
-                    <input type="text" class="form-control" placeholder="Embaixo">
-                </div>
+    <form>
+        <div class="row">
+            <div class="col">
+                <h2 class=text-center>Controle selecionado: {{ selectedElement.name }}</h2>
             </div>
         </div>
-        <div class="col-4">
-            <div class="row">
-                <div class="col">
-                    <h6 class=text-center>Horizontal</h6>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="text-right">Ajuste</h5>
+                    </div>
                 </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-auto">
-                    <div class="form-check form-check-inline" *ngFor="let item of horizontalAlignments">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="horizontalAlign" id="horizontalAlign" [value]="item"> {{item}}
-                        </label>
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <h6>Horizontal</h6>
+                    </div>
+                    <div class="col-4">
+                        <input type="text" type="number" class="form-control" placeholder="Horizontal" name="offset_x" [(ngModel)]="selectedElement.offset.x">
+                    </div>
+                </div>
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <h6>Vertical</h6>
+                    </div>
+                    <div class="col-4">
+                        <input type="text" type="number" class="form-control" placeholder="Vertical" name="offset_y" [(ngModel)]="selectedElement.offset.y">
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col">
-                    <h6 class=text-center>Vertical</h6>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-auto">
-                    <div class="form-check form-check-inline" *ngFor="let item of verticalAlignments">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="vertical" id="horizontalAlign" [value]="item"> {{item}}
-                        </label>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col">
+                        <h6 class=text-center>Horizontal</h6>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <h6 class=text-center>Rotação</h6>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-auto">
-                    <div class="form-check form-check-inline" *ngFor="let item of rotations">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="angulo" id="horizontalAlign" [value]="item"> {{item}}
-                        </label>
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <div class="form-check form-check-inline" *ngFor="let item of horizontalAlignments">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="horizontalAlign" id="horizontalAlign" [value]="item" [(ngModel)]="selectedElement.horizontalAlignment"> {{ item }}
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+                <div class="row">
+                    <div class="col">
+                        <h6 class=text-center>Vertical</h6>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <div class="form-check form-check-inline" *ngFor="let item of verticalAlignments">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="vertical" id="horizontalAlign" [value]="item"  [(ngModel)]="selectedElement.verticalAlignment"> {{item}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <h6 class=text-center>Rotação</h6>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <div class="form-check form-check-inline" *ngFor="let item of rotations">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="angulo" id="horizontalAlign" [value]="item"  [(ngModel)]="selectedElement.rotation"> {{item}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </div>
-
+    </form>
 </div>

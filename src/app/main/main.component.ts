@@ -26,8 +26,10 @@ export class MainComponent implements OnInit {
 
   elements: BarCodeElement[] = [];
 
-  horizontalAlignments = Object.keys(HorizontalAlignment);
-  verticalAlignments = Object.keys(VerticalAlignment);
+  selectedElement: BarCodeElement;
+
+  horizontalAlignments = Object.values(HorizontalAlignment);
+  verticalAlignments = Object.values(VerticalAlignment);
 
   @ViewChild("canvas")
   canvas: ElementRef;
@@ -39,9 +41,9 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.elements = this.availableElements;
+    this.selectedElement = this.elements[2];
     this.CanvasContext.fillStyle = "gray";
-    this.draw();
-
+    setInterval(() => this.draw(), 33);
 
   }
 
@@ -91,6 +93,8 @@ export class MainComponent implements OnInit {
           return new Vector2(textSize.width * 1.1, this.elementFont.size * 1.1);
       }
     }
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, width, height);
 
     for (const element of this.elements) {
       let size = elementSize(element);
@@ -98,15 +102,15 @@ export class MainComponent implements OnInit {
         .add(element.offset);
 
       ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.translate(position.x, position.y);
+      ctx.translate(position.x + Math.abs(size.x) / 2, position.y + Math.abs(size.y) / 2);
       ctx.rotate(Math.PI * element.rotation / 180);
       switch (element.type) {
         case BarCodeElementType.BarCode:
-          ctx.fillRect(0, 0, size.x, size.y);
+          ctx.fillRect(Math.abs(size.x) / -2, Math.abs(size.y) / -2, size.x, size.y);
           break;
 
         case BarCodeElementType.Text:
-          ctx.strokeText(element.name, 0, 0);
+          ctx.strokeText(element.name,  Math.abs(size.x) / -2, Math.abs(size.y) / -2);
           break;
 
         default:

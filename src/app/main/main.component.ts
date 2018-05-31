@@ -26,7 +26,7 @@ export class MainComponent implements OnInit {
 
   availableElements = [
     new BarCodeElement("Código de Barras", BarCodeElementType.BarCode),
-    new BarCodeElement("Cor", BarCodeElementType.Text, HorizontalAlignment.Right, VerticalAlignment.Middle, Vector2.zero, -90),
+    new BarCodeElement("Cor", BarCodeElementType.Text, HorizontalAlignment.Right, VerticalAlignment.Middle, Vector2.zero, 270),
     new BarCodeElement("Tamanho", BarCodeElementType.Text, HorizontalAlignment.Center),
     new BarCodeElement("SubTamanho", BarCodeElementType.Text, HorizontalAlignment.Center, VerticalAlignment.Top, new Vector2(0, 10)),
     new BarCodeElement("Preço", BarCodeElementType.Text, HorizontalAlignment.Right),

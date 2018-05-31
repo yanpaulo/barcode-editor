@@ -1,9 +1,9 @@
-import { Vector2 } from "./Vector2";
+import { Vetor } from "./Vetor";
 
-export class ElementPosition {
-    constructor(public size: Vector2, public position: Vector2) { }
+export class PosicaoElementoCodigoBarra {
+    constructor(public size: Vetor, public position: Vetor) { }
 
-    intercepts(v: Vector2) {
+    intercepta(v: Vetor) {
         let
             left = this.position.x, right = this.position.x + this.size.x,
             top = this.position.y, bottom = this.position.y + this.size.y;

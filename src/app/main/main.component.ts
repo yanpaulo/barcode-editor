@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { BarCodeElement } from './BarCodeElement';
-import { BarCodeElementType } from './BarCodeElementType.enum';
-import { Vector2 } from './Vector2';
-import { HorizontalAlignment } from './HorizontalAlignment.enum';
-import { VerticalAlignment } from './VerticalAlignment.enum';
-import { ElementPosition } from './ElementPosition';
+import { AlinhamentoHorizontal } from './AlinhamentoHorizontal.enum';
+import { AlinhamentoVertical } from './AlinhamentoVertical.enum';
+import { ElementoCodigoBarra } from './ElementoCodigoBarra';
+import { TipoElementoCodigoBarra } from './TipoElementoCodigoBarra.enum';
+import { Vetor } from './Vetor';
+import { PosicaoElementoCodigoBarra } from './PosicaoElementoCodigoBarra';
 
 @Component({
   selector: 'app-main',
@@ -16,38 +16,40 @@ export class MainComponent implements OnInit {
   @ViewChild("canvas")
   canvas: ElementRef;
 
-  elementFont = { size: 12, name: "Arial" };
+  fonteElemento = { size: 12, name: "Arial" };
 
-  rotations = [0, 90, 180, 270];
+  rotacoes = [0, 90, 180, 270];
 
-  horizontalAlignments = Object.values(HorizontalAlignment);
+  alinhamentosHorizontal = Object.values(AlinhamentoHorizontal);
 
-  verticalAlignments = Object.values(VerticalAlignment);
+  alinhamentosVertical = Object.values(AlinhamentoVertical);
 
-  availableElements = [
-    new BarCodeElement("Código de Barras", BarCodeElementType.BarCode),
-    new BarCodeElement("Cor", BarCodeElementType.Text, HorizontalAlignment.Right, VerticalAlignment.Middle, Vector2.zero, 270),
-    new BarCodeElement("Tamanho", BarCodeElementType.Text, HorizontalAlignment.Center),
-    new BarCodeElement("SubTamanho", BarCodeElementType.Text, HorizontalAlignment.Center, VerticalAlignment.Top, new Vector2(0, 10)),
-    new BarCodeElement("Preço", BarCodeElementType.Text, HorizontalAlignment.Right),
+  elementosDisponiveis = [
+    new ElementoCodigoBarra("Código de Barras", TipoElementoCodigoBarra.Codigo),
+    new ElementoCodigoBarra("Cor", TipoElementoCodigoBarra.Texto, AlinhamentoHorizontal.Direita, AlinhamentoVertical.Meio, Vetor.zero, 270),
+    new ElementoCodigoBarra("Tamanho", TipoElementoCodigoBarra.Texto, AlinhamentoHorizontal.Meio),
+    new ElementoCodigoBarra("SubTamanho", TipoElementoCodigoBarra.Texto, AlinhamentoHorizontal.Meio, AlinhamentoVertical.Topo, new Vetor(0, 10)),
+    new ElementoCodigoBarra("Preço", TipoElementoCodigoBarra.Texto, AlinhamentoHorizontal.Direita),
   ];
 
-  elements: BarCodeElement[] = [];
+  elementos: ElementoCodigoBarra[] = [];
 
-  selectedElement: BarCodeElement;
+  elementoSelecionado: ElementoCodigoBarra;
 
 
   get CanvasContext() {
     return this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
   }
+
   constructor() { }
 
   ngOnInit() {
-    this.elements = this.availableElements;
-    this.selectedElement = this.elements[0];
+    this.elementos = this.elementosDisponiveis;
+    this.elementoSelecionado = this.elementos[0];
     this.CanvasContext.fillStyle = "gray";
     this.CanvasContext.textAlign = "center";
     this.CanvasContext.textBaseline = "middle";
+
     setInterval(() => this.draw(), 33);
   }
 
@@ -62,84 +64,85 @@ export class MainComponent implements OnInit {
       y: height / 2
     };
 
-    const hPosition = (size: Vector2, alignment: HorizontalAlignment) => {
-      switch (alignment) {
-        case HorizontalAlignment.Left:
+    let posicaoH = (tamanho: Vetor, alinhamento: AlinhamentoHorizontal) => {
+      switch (alinhamento) {
+        case AlinhamentoHorizontal.Esquerda:
           return left;
 
-        case HorizontalAlignment.Right:
-          return rigth - size.x;
+        case AlinhamentoHorizontal.Direita:
+          return rigth - tamanho.x;
 
-        case HorizontalAlignment.Center:
-          return center.x - size.x / 2;
+        case AlinhamentoHorizontal.Meio:
+          return center.x - tamanho.x / 2;
       }
     }
 
-    const vPosition = (size: Vector2, alignment: VerticalAlignment) => {
-      switch (alignment) {
-        case VerticalAlignment.Top:
+    let posicaoV = (tamanho: Vetor, alinhamento: AlinhamentoVertical) => {
+      switch (alinhamento) {
+        case AlinhamentoVertical.Topo:
           return top;
 
-        case VerticalAlignment.Middle:
-          return center.y - size.y / 2;
+        case AlinhamentoVertical.Meio:
+          return center.y - tamanho.y / 2;
 
-        case VerticalAlignment.Bottom:
-          return bottom - size.y;
+        case AlinhamentoVertical.Fim:
+          return bottom - tamanho.y;
       }
     }
 
-    const elementSize = (element: BarCodeElement) => {
-      let scale = element.scale / 100.0;
-      switch (element.type) {
-        case BarCodeElementType.BarCode:
-          return new Vector2(width * 0.8 * scale, height * 0.8 * scale);
-        case BarCodeElementType.Text:
-          let textSize = ctx.measureText(element.name);
-          return new Vector2(textSize.width * 1.1 * scale, this.elementFont.size * 1.1 * scale);
+    let tamanhoElemento = (element: ElementoCodigoBarra) => {
+      let scale = element.escala / 100.0;
+      switch (element.tipo) {
+        case TipoElementoCodigoBarra.Codigo:
+          return new Vetor(width * 0.8 * scale, height * 0.8 * scale);
+        case TipoElementoCodigoBarra.Texto:
+          let textSize = ctx.measureText(element.nome);
+          return new Vetor(textSize.width * 1.1 * scale, this.fonteElemento.size * 1.1 * scale);
       }
     }
+
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, width, height);
 
-    for (const element of this.elements) {
-      let size = elementSize(element);
-      let position = new Vector2(hPosition(size, element.horizontalAlignment), vPosition(size, element.verticalAlignment))
-        .add(element.offset);
-      let scale = element.scale / 100.0;
+    for (const elemento of this.elementos) {
+      let tamanho = tamanhoElemento(elemento);
+      let posicao = new Vetor(posicaoH(tamanho, elemento.alinhamentoHorizontal), posicaoV(tamanho, elemento.alinhamentoVertical))
+        .soma(elemento.ajuste);
+      let escala = elemento.escala / 100.0;
 
-      element.position = new ElementPosition(size, position);
+      elemento.posicao = new PosicaoElementoCodigoBarra(tamanho, posicao);
 
       ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.translate(position.x + Math.abs(size.x) / 2, position.y + Math.abs(size.y) / 2);
-      ctx.rotate(Math.PI * element.rotation / 180);
-      ctx.scale(scale, scale);
+      ctx.translate(posicao.x + Math.abs(tamanho.x) / 2, posicao.y + Math.abs(tamanho.y) / 2);
+      ctx.rotate(Math.PI * elemento.rotacao / 180);
+      ctx.scale(escala, escala);
 
-      switch (element.type) {
-        case BarCodeElementType.BarCode:
-          ctx.fillRect(Math.abs(size.x) / -2, Math.abs(size.y) / -2, size.x, size.y);
+      switch (elemento.tipo) {
+        case TipoElementoCodigoBarra.Codigo:
+          ctx.fillRect(Math.abs(tamanho.x) / -2, Math.abs(tamanho.y) / -2, tamanho.x, tamanho.y);
           break;
 
-        case BarCodeElementType.Text:
-          ctx.strokeText(element.name, 0, 0);
-          break;
-
-        default:
+        case TipoElementoCodigoBarra.Texto:
+          ctx.strokeText(elemento.nome, 0, 0);
           break;
       }
-      if (this.selectedElement == element) {
+
+      if (this.elementoSelecionado == elemento) {
+        let old = { globalAlpha: ctx.globalAlpha, fillStyle: ctx.fillStyle };
+        
         ctx.globalAlpha = 0.5;
         ctx.fillStyle = "green";
-        ctx.fillRect(Math.abs(size.x) / -2, Math.abs(size.y) / -2, size.x, size.y);
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = "gray";
+        ctx.fillRect(Math.abs(tamanho.x) / -2, Math.abs(tamanho.y) / -2, tamanho.x, tamanho.y);
+        ctx.globalAlpha = old.globalAlpha;
+        ctx.fillStyle = old.fillStyle;
       }
     }
 
   }
 
   onClick(x: number, y: number) {
-    let element = this.elements.find(e => e.position && e.position.intercepts(new Vector2(x, y)));
-    this.selectedElement = element || this.selectedElement;
+    let elemento = this.elementos.find(e => e.posicao && e.posicao.intercepta(new Vetor(x, y)));
+    this.elementoSelecionado = elemento || this.elementoSelecionado;
   }
 
 }

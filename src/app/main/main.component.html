@@ -9,7 +9,7 @@
     <form>
         <div class="row">
             <div class="col">
-                <h2 class=text-center>Controle selecionado: {{ selectedElement.name }}</h2>
+                <h2 class=text-center>Controle selecionado: {{ elementoSelecionado.nome }}</h2>
             </div>
         </div>
         <div class="row justify-content-center">
@@ -21,26 +21,26 @@
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-3 text-right">
-                        <label for="offset_x">Horizontal</label>
+                        <label for="ajuste_x">Horizontal</label>
                     </div>
                     <div class="col-4">
-                        <input type="number" class="form-control" placeholder="Horizontal" id="offset_x" name="offset_x" [(ngModel)]="selectedElement.offset.x">
+                        <input type="number" class="form-control" placeholder="Horizontal" id="ajuste_x" name="ajuste_x" [(ngModel)]="elementoSelecionado.ajuste.x">
                     </div>
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-3 text-right">
-                        <label for="offset_y">Vertical</label>
+                        <label for="ajuste_y">Vertical</label>
                     </div>
                     <div class="col-4">
-                        <input type="number" class="form-control" placeholder="Vertical" id="offset_y" name="offset_y" [(ngModel)]="selectedElement.offset.y">
+                        <input type="number" class="form-control" placeholder="Vertical" id="ajuste_y" name="ajuste_y" [(ngModel)]="elementoSelecionado.ajuste.y">
                     </div>
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-3 text-right">
-                        <label for="scale">Escala(%)</label>
+                        <label for="escala">Escala(%)</label>
                     </div>
                     <div class="col-4">
-                        <input type="number" class="form-control" placeholder="Vertical" id="scale" name="scale" [(ngModel)]="selectedElement.scale">
+                        <input type="number" class="form-control" placeholder="Vertical" id="escala" name="escala" [(ngModel)]="elementoSelecionado.escala">
                     </div>
                 </div>
             </div>
@@ -56,9 +56,9 @@
                         <label>Horizontal</label>
                     </div>
                     <div class="col">
-                        <div class="form-check form-check-inline" *ngFor="let item of horizontalAlignments">
+                        <div class="form-check form-check-inline" *ngFor="let item of alinhamentosHorizontal">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="horizontalAlign" id="horizontalAlign" [value]="item" [(ngModel)]="selectedElement.horizontalAlignment"> {{ item }}
+                                <input class="form-check-input" type="radio" name="alinhamentoHorizontal" [value]="item" [(ngModel)]="elementoSelecionado.alinhamentoHorizontal"> {{ item }}
                             </label>
                         </div>
                     </div>
@@ -68,9 +68,9 @@
                         <label>Vertical</label>
                     </div>
                     <div class="col">
-                        <div class="form-check form-check-inline" *ngFor="let item of verticalAlignments">
+                        <div class="form-check form-check-inline" *ngFor="let item of alinhamentosVertical">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="vertical" id="horizontalAlign" [value]="item" [(ngModel)]="selectedElement.verticalAlignment"> {{item}}
+                                <input class="form-check-input" type="radio" name="alinhamentoVertical" [value]="item" [(ngModel)]="elementoSelecionado.alinhamentoVertical"> {{item}}
                             </label>
                         </div>
                     </div>
@@ -80,9 +80,9 @@
                         <label>Rotação</label>
                     </div>
                     <div class="col">
-                        <div class="form-check form-check-inline" *ngFor="let item of rotations">
+                        <div class="form-check form-check-inline" *ngFor="let item of rotacoes">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="angulo" id="horizontalAlign" [value]="item" [(ngModel)]="selectedElement.rotation"> {{item}}
+                                <input class="form-check-input" type="radio" name="rotacao" [value]="item" [(ngModel)]="elementoSelecionado.rotacao"> {{item}}
                             </label>
                         </div>
                     </div>

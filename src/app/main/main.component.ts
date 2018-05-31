@@ -94,10 +94,10 @@ export class MainComponent implements OnInit {
       let scale = element.escala / 100.0;
       switch (element.tipo) {
         case TipoElementoCodigoBarra.Codigo:
-          return new Vetor(width * 0.8 * scale, height * 0.8 * scale);
+          return new Vetor(width, height).multiplica( 0.8 *scale);
         case TipoElementoCodigoBarra.Texto:
           let textSize = ctx.measureText(element.nome);
-          return new Vetor(textSize.width * 1.1 * scale, this.fonteElemento.size * 1.1 * scale);
+          return new Vetor(textSize.width, this.fonteElemento.size).multiplica(scale);
       }
     }
 
@@ -110,16 +110,19 @@ export class MainComponent implements OnInit {
         .soma(elemento.ajuste);
       let escala = elemento.escala / 100.0;
 
+      let translacao = posicao.soma(tamanho.multiplica(0.5));
+      let ajuste = tamanho.multiplica(-0.5);
+
       elemento.posicao = new PosicaoElementoCodigoBarra(tamanho, posicao);
 
       ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.translate(posicao.x + Math.abs(tamanho.x) / 2, posicao.y + Math.abs(tamanho.y) / 2);
+      ctx.translate(translacao.x, translacao.y);
       ctx.rotate(Math.PI * elemento.rotacao / 180);
       ctx.scale(escala, escala);
 
       switch (elemento.tipo) {
         case TipoElementoCodigoBarra.Codigo:
-          ctx.fillRect(Math.abs(tamanho.x) / -2, Math.abs(tamanho.y) / -2, tamanho.x, tamanho.y);
+          ctx.fillRect(ajuste.x, ajuste.y, tamanho.x, tamanho.y);
           break;
 
         case TipoElementoCodigoBarra.Texto:
@@ -132,7 +135,7 @@ export class MainComponent implements OnInit {
         
         ctx.globalAlpha = 0.5;
         ctx.fillStyle = "green";
-        ctx.fillRect(Math.abs(tamanho.x) / -2, Math.abs(tamanho.y) / -2, tamanho.x, tamanho.y);
+        ctx.fillRect(ajuste.x, ajuste.y, tamanho.x, tamanho.y);
         ctx.globalAlpha = old.globalAlpha;
         ctx.fillStyle = old.fillStyle;
       }

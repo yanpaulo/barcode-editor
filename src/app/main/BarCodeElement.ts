@@ -20,4 +20,5 @@ export class BarCodeElement {
     }
 
     position: ElementPosition;
+    scale = 100.0;
 }

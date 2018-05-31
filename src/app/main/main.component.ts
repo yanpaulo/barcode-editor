@@ -46,8 +46,8 @@ export class MainComponent implements OnInit {
     this.elements = this.availableElements;
     this.selectedElement = this.elements[0];
     this.CanvasContext.fillStyle = "gray";
-    this.CanvasContext.font = `${this.elementFont.size}px ${ this.elementFont.name}`;
-    // this.CanvasContext.textAlign = "center";
+    this.CanvasContext.textAlign = "center";
+    this.CanvasContext.textBaseline = "middle";
     setInterval(() => this.draw(), 33);
   }
 
@@ -89,12 +89,13 @@ export class MainComponent implements OnInit {
     }
 
     const elementSize = (element: BarCodeElement) => {
+      let scale = element.scale / 100.0;
       switch (element.type) {
         case BarCodeElementType.BarCode:
-          return new Vector2(width * 0.85, height * 0.8);
+          return new Vector2(width * 0.8 * scale, height * 0.8 * scale);
         case BarCodeElementType.Text:
           let textSize = ctx.measureText(element.name);
-          return new Vector2(textSize.width * 1.1, this.elementFont.size * 1.2);
+          return new Vector2(textSize.width * 1.1 * scale, this.elementFont.size * 1.1 * scale);
       }
     }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -104,12 +105,14 @@ export class MainComponent implements OnInit {
       let size = elementSize(element);
       let position = new Vector2(hPosition(size, element.horizontalAlignment), vPosition(size, element.verticalAlignment))
         .add(element.offset);
+      let scale = element.scale / 100.0;
 
       element.position = new ElementPosition(size, position);
 
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.translate(position.x + Math.abs(size.x) / 2, position.y + Math.abs(size.y) / 2);
       ctx.rotate(Math.PI * element.rotation / 180);
+      ctx.scale(scale, scale);
 
       switch (element.type) {
         case BarCodeElementType.BarCode:
@@ -117,7 +120,7 @@ export class MainComponent implements OnInit {
           break;
 
         case BarCodeElementType.Text:
-          ctx.strokeText(element.name, Math.abs(size.x) / -2, Math.abs(size.y) * 0.25);
+          ctx.strokeText(element.name, 0, 0);
           break;
 
         default:

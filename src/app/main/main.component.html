@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-5">
+            <div class="col border py-2">
                 <div class="row justify-content-end">
                     <div class="col-7">
                         <h5 class="text-center">Ajuste</h5>
@@ -21,38 +21,38 @@
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-3 text-right">
-                        <h6>Horizontal</h6>
+                        <label for="offset_x">Horizontal</label>
                     </div>
                     <div class="col-4">
-                        <input type="text" type="number" class="form-control" placeholder="Horizontal" name="offset_x" [(ngModel)]="selectedElement.offset.x">
+                        <input type="number" class="form-control" placeholder="Horizontal" id="offset_x" name="offset_x" [(ngModel)]="selectedElement.offset.x">
                     </div>
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-3 text-right">
-                        <h6>Vertical</h6>
+                        <label for="offset_y">Vertical</label>
                     </div>
                     <div class="col-4">
-                        <input type="text" type="number" class="form-control" placeholder="Vertical" name="offset_y" [(ngModel)]="selectedElement.offset.y">
+                        <input type="number" class="form-control" placeholder="Vertical" id="offset_y" name="offset_y" [(ngModel)]="selectedElement.offset.y">
                     </div>
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-3 text-right">
-                        <h6>Escala(%)</h6>
+                        <label for="scale">Escala(%)</label>
                     </div>
                     <div class="col-4">
-                        <input type="text" type="number" class="form-control" placeholder="Vertical" name="scale" [(ngModel)]="selectedElement.offset.y">
+                        <input type="number" class="form-control" placeholder="Vertical" id="scale" name="scale" [(ngModel)]="selectedElement.scale">
                     </div>
                 </div>
             </div>
 
-            <div class="col">
+            <div class="col border">
                 <div class="row">
                     <div class="col-8">
                         <h5 class="text-center">Alinhamento</h5>
                     </div>
                 </div>
                 <div class="row justify-content-left">
-                    <div class="col-3 text-right">
+                    <div class="col-2 text-right">
                         <label>Horizontal</label>
                     </div>
                     <div class="col">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="row justify-content-left">
-                    <div class="col-3 text-right">
+                    <div class="col-2 text-right">
                         <label>Vertical</label>
                     </div>
                     <div class="col">
@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    <div class="col-3 text-right">
+                    <div class="col-2 text-right py-2">
                         <label>Rotação</label>
                     </div>
                     <div class="col">

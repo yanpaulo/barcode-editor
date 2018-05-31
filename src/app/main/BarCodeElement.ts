@@ -2,6 +2,7 @@ import { BarCodeElementType } from "./BarCodeElementType.enum";
 import { HorizontalAlignment } from "./HorizontalAlignment.enum";
 import { VerticalAlignment } from "./VerticalAlignment.enum";
 import { Vector2 } from "./Vector2";
+import { ElementPosition } from "./ElementPosition";
 
 
 export class BarCodeElement {
@@ -17,4 +18,6 @@ export class BarCodeElement {
             this.verticalAlignment = VerticalAlignment.Middle;
         }
     }
+
+    position: ElementPosition;
 }

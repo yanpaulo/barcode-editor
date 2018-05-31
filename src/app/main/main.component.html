@@ -3,7 +3,7 @@
 
     <div class="row justify-content-center">
         <div class="col-auto" style="background-color: greenyellow">
-            <canvas #canvas width="400" height="300"></canvas>
+            <canvas #canvas width="400" height="300" (click)="onClick($event.offsetX, $event.offsetY)"></canvas>
         </div>
     </div>
     <form>
